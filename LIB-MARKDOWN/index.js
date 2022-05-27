@@ -1,11 +1,36 @@
 const chalk = require('chalk');
+const fs = require('fs');
 
-console.log(chalk.blue('Olá, Mundo!'));
+function trataErro(erro) {
+  throw new Error(chalk.red(erro.code, 'não há arquivo no caminho'));
+}
 
-const paragrafo = 'texto retornado por uma função';
+async function pegaArquivo(caminhoDoArquivo) {
+  const encoding = 'utf-8';
+  try {
+    const texto = await fs.promises.readFile(caminhoDoArquivo, encoding)
+    console.log(chalk.green(texto))
+  } catch(erro) {
+    trataErro(erro);
+  }
+}
 
-    function texto(string) {
-        return string;
-    }
+// function pegaArquivo(caminhoDoArquivo) {
+//   const encoding = 'utf-8';
+//   fs.promises
+//   .readFile(caminhoDoArquivo, encoding)
+//   .then((texto) => chalk.green(console.log(texto)))
+//   .catch((erro) => trataErro(erro))
+// }
 
-    console.log(texto(paragrafo));
+// function pegaArquivo(caminhoDoArquivo) {
+//   const encoding = 'utf-8';
+//   fs.readFile(caminhoDoArquivo, encoding, (erro, texto) => {
+//     if (erro) {
+//       trataErro(erro);
+//     }
+//     console.log(chalk.green(texto));
+//   })
+// }
+
+pegaArquivo('./arquivos/texto1.md');
